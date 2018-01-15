@@ -14,15 +14,13 @@ Choose a set of data from your corpus. Look for already-transcribed content from
 
 - Standardise variation in spelling.
 
-- Replace non-lexical number forms, sho
-- rthand forms, abbreviations with full lexical forms. For example, replace numbers '9' with 'nine'.
+- Replace non-lexical number forms, shorthand forms, abbreviations with full lexical forms. For example, replace numbers '9' with 'nine'.
 
 - Code-switching in a single tier will confuse the system. Best to have separate tiers for each language, and train the system on just one of the languages.
 
 - Out-of-vocabulary words (words that are in the corpus but not in the lexicon) will reduce the accuracy. Ensure that everything in the speech signal is transcribed.
 
 - Remove inline conventions such as speaker or language codes.
-
 
 
 ## Cleaning audio 
