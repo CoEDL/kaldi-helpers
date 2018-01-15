@@ -14,7 +14,8 @@ Choose a set of data from your corpus. Look for already-transcribed content from
 
 - Standardise variation in spelling.
 
-- Replace non-lexical number forms, shorthand forms, abbreviations with full lexical forms. For example, replace numbers '9' with 'nine'.
+- Replace non-lexical number forms, sho
+- rthand forms, abbreviations with full lexical forms. For example, replace numbers '9' with 'nine'.
 
 - Code-switching in a single tier will confuse the system. Best to have separate tiers for each language, and train the system on just one of the languages.
 
@@ -56,6 +57,5 @@ u u
 e e 
 o o
 ```
-
 
 You should now have a collection of cleaned transcriptions, audio in the right format, and a mapping file of the letters to the sounds for the language.
