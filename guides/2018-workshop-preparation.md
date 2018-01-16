@@ -2,6 +2,7 @@
 
 Docker is the environment in which we will run Kaldi, one of the speech recognition systems. To install Docker, see the guides for your system. It should install easily, please get in touch if you have issues with the installation.
 
+
 - OS X: https://docs.docker.com/docker-for-mac/install/
 - Linux (Ubuntu): https://docs.docker.com/engine/installation/linux/ubuntu/
 - Windows: https://docs.docker.com/docker-for-windows/install/  
