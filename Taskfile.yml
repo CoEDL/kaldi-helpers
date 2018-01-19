@@ -146,30 +146,30 @@ elan-to-json:
   env:
     PYTHONIOENCODING: "utf-8"
   cmds:
-    - python3.6 {{ .SCRIPTS_PATH }}/audio_segmenter/elan_to_json.py {{ .CORPUS_PATH }}
+    - python3.6 {{ .SCRIPTS_PATH }}/elan_to_json.py {{ .CORPUS_PATH }}
 
 json-to-kaldi:
   desc: "Generate files for the Kaldi format"
   cmds:
-    - python3 {{ .SCRIPTS_PATH }}/audio_segmenter/json_to_kaldi.py --output-folder="{{ .OUTPUT_PATH }}/tmp/json_splitted"
+    - python3 {{ .SCRIPTS_PATH }}/json_to_kaldi.py --output-folder="{{ .OUTPUT_PATH }}/tmp/json_splitted"
 
 clean-json:
   desc: "Clean corpus of problematic characters before passing data to Kaldi"
   env:
     PYTHONIOENCODING: "utf-8"
   cmds:
-    - python3 {{ .SCRIPTS_PATH }}/text_processing/clean_text.py
+    - python3 {{ .SCRIPTS_PATH }}/clean_text.py
 
 make-wordlist:
   desc: "Make a list of unique words that occur in the corpus"
   env:
     PYTHONIOENCODING: "utf-8"
   cmds:
-    - python3 {{ .SCRIPTS_PATH }}/text_processing/make_wordlist.py
+    - python3 {{ .SCRIPTS_PATH }}/make_wordlist.py
 
 make-prn-dict:
   desc: "Make pronunciation dictionary"
   env:
     PYTHONIOENCODING: "utf-8"
   cmds:
-    - python3 {{ .SCRIPTS_PATH }}/pronunciation/convert.py --config {{ .LETTER_TO_SOUND_PATH }}
+    - python3 {{ .SCRIPTS_PATH }}/make_prn_dict.py --config {{ .LETTER_TO_SOUND_PATH }}
