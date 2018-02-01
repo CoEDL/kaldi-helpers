@@ -162,6 +162,13 @@ elan-to-json:
   cmds:
     - python3.6 {{ .SCRIPTS_PATH }}/elan_to_json.py {{ .CORPUS_PATH }}
 
+trs-to-json:
+  desc: "Convert a folder of .trs files to a single JSON file"
+  env:
+    PYTHONIOENCODING: "utf-8"
+  cmds:
+    - python3.6 {{ .SCRIPTS_PATH }}/trs_to_json.py {{ .CORPUS_PATH }}
+
 json-to-kaldi:
   desc: "Generate files for the Kaldi format"
   cmds:
