@@ -5,7 +5,8 @@ _run-all-default:
   cmds:
     # Default extract stage, assuming data are cleaned and filtered.
     - task clean-output-folder tmp-makedir make-kaldi-subfolders
-    - task elan-to-json > {{ .OUTPUT_PATH }}/tmp/{{ .CLEANED_FILTERED_DATA }}
+    - task elan-to-json > {{ .OUTPUT_PATH }}/tmp/dirty.json
+    - task clean-json > {{ .OUTPUT_PATH }}/tmp/{{ .CLEANED_FILTERED_DATA }}
     - task _build-default
 
 _run-all-dirty:
