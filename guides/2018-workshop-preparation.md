@@ -18,7 +18,7 @@ ASR systems train on pre-transcribed speech data, building a statistical model o
 
 ## Preparing your existing transcriptions
 
-Choose a set of data from your corpus. For maximum success in the workshop, use orthographically-transcribed content from a single speaker, preferably with more than an hour of transcription. Select data from a common recording activity, e.g. short sentences, or stories. The scripts we are using are written to work with ELAN files. Let us know if you have other transcription forms, as we may be able to write an import script for your data.
+Choose a set of data from your corpus. For maximum success in the workshop, use orthographically-transcribed content from a single speaker, preferably with more than an hour of transcription. Select data from a common recording activity, e.g. short sentences, or stories. The scripts we are using are written to work with ELAN (.eaf) or Transcriber (.trs) files. Let us know if you have other transcription forms, as we may be able to write an import script for your data.
 
 Duplicate your data set so that you don't affect your data by preparing for this workshop, as some of these steps are destructive.
 

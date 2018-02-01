@@ -1,3 +1,10 @@
+#!/usr/bin/python3
+# Parse trs file and extract information from it for json
+# Dumps json to sys stdout,
+# so you'll need to direct the output to a file when running the script
+# $ python3 trs_to_json.py --indir ../input/data > ../input/output/tmp/dirty.json
+
+
 import xml.etree.ElementTree as ET
 import glob
 import sys
