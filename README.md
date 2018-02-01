@@ -1,9 +1,17 @@
-# asr-daan
-A repository to hold code produced during the CoEDL working on speech processing for small resource languages.
+# CoEDL Kaldi pipeline
+
+A set of scripts to use in preparing a corpus for speech-to-text processing with Kaldi.
+
+Read about [setting up Docker](guides/kaldi-docker-setup.md) to run all this.
+
+For more information about data requirements, see the [data guide](guides/2018-worskhop-preparation.md).
+
+Read about the [tasks](guides/about-the-tasks.md) that can be run.
+
 
 # Workflow
 
-![Alt text](https://g.gravizo.com/source/custom_mark?https%3A%2F%2Fraw.githubusercontent.com%2Fjotia1%2Fasr-daan%2Fmaster%2FREADME.md)
+![Kaldi pipeline](https://g.gravizo.com/source/custom_mark?https%3A%2F%2Fraw.githubusercontent.com%2Fcoedl%2Fkaldi-helpers%2Fmaster%2FREADME.md)
 
  <details> 
   custom_mark
