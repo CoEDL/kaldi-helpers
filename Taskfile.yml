@@ -18,7 +18,7 @@ _run-elan-split:
     - task clean-json > {{ .OUTPUT_PATH }}/tmp/{{ .CLEANED_FILTERED_DATA }}
     - task _build-default
 
-_run-all-trs:
+_run-trs-default:
   desc: "Run through processing pipeline for TRS transcriptions"
   cmds:
     - task clean-output-folder tmp-makedir make-kaldi-subfolders
@@ -224,4 +224,4 @@ split-eafs:
   env:
     PYTHONIOENCODING: "utf-8"
   cmds:
-    - python3 {{ .SCRIPTS_PATH }}/split_eafs.py --input_dir {{ .DIRTY_DATA_PATH }} --tier {{ .TARGET_LANGUAGE_TIER }} --silence_marker {{ .SILENCE_MARKER }} --silence_tier {{ .SILENCE_REF_TIER }} --output_json {{ .OUTPUT_PATH }}/tmp/dirty.json --output_audio_dir {{ .CORPUS_PATH }} --output_text_dir {{ .OUTPUT_PATH }}/tmp/labels
+    - python3 {{ .SCRIPTS_PATH }}/split_eafs.py --input_dir {{ .DIRTY_DATA_PATH }} --tier {{ .TARGET_LANGUAGE_TIER }} --silence_marker {{ .SILENCE_MARKER }} --silence_tier {{ .SILENCE_REF_TIER }} --output_audio_dir {{ .CORPUS_PATH }} --output_text_dir {{ .OUTPUT_PATH }}/tmp/label --output_json {{ .OUTPUT_PATH }}/tmp/dirty.json

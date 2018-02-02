@@ -17,13 +17,13 @@ from pympi.Elan import Eaf
 
 
 parser = argparse.ArgumentParser(description="This script will slice audio and output text in a format ready for our Kaldi pipeline.")
-parser.add_argument('-i', '--input_dir', help='Directory of dirty audio and eaf files', type=str, default='../input/data')
+parser.add_argument('-i', '--input_dir', help='Directory of dirty audio and eaf files', type=str, default='../input/data-dirty')
 parser.add_argument('-t', '--tier', help='Target language tier name', type=str, default='Phrase')
 parser.add_argument('-m', '--silence_marker', help='Skip annotation with this value on the target language tier', type=str, default='*PUB')
 parser.add_argument('-s', '--silence_tier', help='Silence audio when annotations are found on this ref tier', type=str, default='Silence')
 parser.add_argument('-a', '--output_audio_dir', help='Dir to save the audio files', type=str, default='../input/data')
-parser.add_argument('-o', '--output_text_dir', help='Directory to save sliced text files', type=str, default='tmp')
-parser.add_argument('-j', '--output_json', help='File name to output json', type=str, default='cleaned_filtered.json')
+parser.add_argument('-o', '--output_text_dir', help='Directory to save sliced text files', type=str, default='../input/output/tmp/label')
+parser.add_argument('-j', '--output_json', help='File name to output json', type=str, default='../input/output/tmp/dirty.json')
 args = parser.parse_args()
 try:
     input_dir = args.input_dir
@@ -32,7 +32,7 @@ try:
     silence_tier = args.silence_tier
     output_audio_dir = args.output_audio_dir
     output_text_dir = args.output_text_dir
-    # output json file name is passed in with path attached
+    # json file arg should have path attached
     output_json = args.output_json
 except Exception:
     parser.print_help()
@@ -99,6 +99,9 @@ def read_eaf(ie):
         ref_annotation = []
         start = ann[0]
         end = ann[1]
+        # output new values, not the original clip start end times
+        clip_start = 0
+        clip_end = ann[1] - ann[0]
         annotation = ann[2]
 
         # Check for annotations labelled with a particular symbol on the main tier
@@ -121,8 +124,8 @@ def read_eaf(ie):
             obj = {
                 'audioFileName': os.path.join(".", fname + ".wav"),
                 'transcript': annotation,
-                'startMs': start,
-                'stopMs': end
+                'startMs': clip_start,
+                'stopMs': clip_end
             }
             if 'PARTICIPANT' in params:
                 obj.speakerId = speaker_id
