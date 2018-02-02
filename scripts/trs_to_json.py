@@ -95,7 +95,8 @@ def processTurn(fileName, turnNode, waveName, tree):
 
     baseDir, name = os.path.split(fileName)
     baseName, _ = os.path.splitext(name)
-    waveFileName = os.path.join(baseDir, waveName)
+    # waveFileName = os.path.join(baseDir, waveName)
+    waveFileName = os.path.join(".", waveName)
 
     result = []
 

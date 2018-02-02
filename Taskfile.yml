@@ -1,3 +1,4 @@
+# v 0.0.1
 ######################################### DRIVER TASKS ############################################
 
 _run-all-default:
@@ -167,7 +168,7 @@ trs-to-json:
   env:
     PYTHONIOENCODING: "utf-8"
   cmds:
-    - python3.6 {{ .SCRIPTS_PATH }}/trs_to_json.py {{ .CORPUS_PATH }}
+    - python3.6 {{ .SCRIPTS_PATH }}/trs_to_json.py --indir {{ .CORPUS_PATH }}
 
 json-to-kaldi:
   desc: "Generate files for the Kaldi format"

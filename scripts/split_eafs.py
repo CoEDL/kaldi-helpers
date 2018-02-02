@@ -119,7 +119,7 @@ def read_eaf(ie):
             # build the output audio/text filename
             fname = basename + "_" + str(i)
             obj = {
-                'audioFileName': "./" + fname + ".wav",
+                'audioFileName': os.path.join(".", fname + ".wav"),
                 'transcript': annotation,
                 'startMs': start,
                 'stopMs': end
