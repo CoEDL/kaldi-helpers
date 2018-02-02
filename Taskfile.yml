@@ -181,28 +181,28 @@ trs-to-json:
 json-to-kaldi:
   desc: "Generate files for the Kaldi format"
   cmds:
-    - python3 {{ .SCRIPTS_PATH }}/json_to_kaldi.py --output-folder="{{ .OUTPUT_PATH }}/tmp/json_splitted"
+    - python3.6 {{ .SCRIPTS_PATH }}/json_to_kaldi.py --output-folder="{{ .OUTPUT_PATH }}/tmp/json_splitted"
 
 clean-json:
   desc: "Clean corpus of problematic characters before passing data to Kaldi"
   env:
     PYTHONIOENCODING: "utf-8"
   cmds:
-    - python3 {{ .SCRIPTS_PATH }}/clean_json.py  --infile {{ .OUTPUT_PATH }}/tmp/dirty.json
+    - python3.6 {{ .SCRIPTS_PATH }}/clean_json.py  --infile {{ .OUTPUT_PATH }}/tmp/dirty.json
 
 make-wordlist:
   desc: "Make a list of unique words that occur in the corpus"
   env:
     PYTHONIOENCODING: "utf-8"
   cmds:
-    - python3 {{ .SCRIPTS_PATH }}/make_wordlist.py
+    - python3.6 {{ .SCRIPTS_PATH }}/make_wordlist.py
 
 make-prn-dict:
   desc: "Make pronunciation dictionary"
   env:
     PYTHONIOENCODING: "utf-8"
   cmds:
-    - python3 {{ .SCRIPTS_PATH }}/make_prn_dict.py --config {{ .LETTER_TO_SOUND_PATH }}
+    - python3.6 {{ .SCRIPTS_PATH }}/make_prn_dict.py --config {{ .LETTER_TO_SOUND_PATH }}
 
 
 resample-audio:
@@ -210,18 +210,18 @@ resample-audio:
   env:
     PYTHONIOENCODING: "utf-8"
   cmds:
-    - python3 {{ .SCRIPTS_PATH }}/resample_audio.py --corpus {{ .CORPUS_PATH }}
+    - python3.6 {{ .SCRIPTS_PATH }}/resample_audio.py --corpus {{ .CORPUS_PATH }}
 
 silence-audio:
   desc: "Silence audio that has an annotion in matching Elan file 'Silence' tier"
   env:
     PYTHONIOENCODING: "utf-8"
   cmds:
-    - python3 {{ .SCRIPTS_PATH }}/silence_audio.py --corpus {{ .CORPUS_PATH }}
+    - python3.6 {{ .SCRIPTS_PATH }}/silence_audio.py --corpus {{ .CORPUS_PATH }}
 
 split-eafs:
   desc: "Read Elan files, slices matching WAVs by start and end times of annotations on a particular tier, outputting separate clips and text. Skips annotations with value '*PUB' on the main tier, or annotations that have a ref annotation on the 'Silence' tier."
   env:
     PYTHONIOENCODING: "utf-8"
   cmds:
-    - python3 {{ .SCRIPTS_PATH }}/split_eafs.py --input_dir {{ .DIRTY_DATA_PATH }} --tier {{ .TARGET_LANGUAGE_TIER }} --silence_marker {{ .SILENCE_MARKER }} --silence_tier {{ .SILENCE_REF_TIER }} --output_json {{ .OUTPUT_PATH }}/tmp/dirty.json --output_audio_dir {{ .CORPUS_PATH }} --output_text_dir {{ .OUTPUT_PATH }}/tmp/labels
+    - python3.6 {{ .SCRIPTS_PATH }}/split_eafs.py --input_dir {{ .DIRTY_DATA_PATH }} --tier {{ .TARGET_LANGUAGE_TIER }} --silence_marker {{ .SILENCE_MARKER }} --silence_tier {{ .SILENCE_REF_TIER }} --output_json {{ .OUTPUT_PATH }}/tmp/dirty.json --output_audio_dir {{ .CORPUS_PATH }} --output_text_dir {{ .OUTPUT_PATH }}/tmp/labels
