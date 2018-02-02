@@ -148,9 +148,7 @@ def findFilesByExt(setOfAllFiles, exts):
 
 
 g_exts = ["*.eaf"]
-# For Python3.6
-# allFilesInDir = set(glob.glob(os.path.join(input_dir, "**"), recursive=True))
-allFilesInDir = set(glob.glob(os.path.join(input_dir, "**")))
+allFilesInDir = set(glob.glob(os.path.join(input_dir, "**"), recursive=True))
 input_eafs = findFilesByExt(allFilesInDir, set(g_exts))
 
 for ie in input_eafs:
