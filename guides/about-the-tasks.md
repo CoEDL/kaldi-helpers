@@ -34,7 +34,7 @@ The final task, `_train-test-default`, runs Kaldi's run.sh script.
 
 The helper tasks are grouped by driver tasks, so a user would typically just do:
 
-- task _run-all-default
+- task _run-elan-default
 - task _build-default
 - task _train-test-default
 

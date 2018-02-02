@@ -1,8 +1,8 @@
-# v 0.0.1
+# v 0.0.2
 ######################################### DRIVER TASKS ############################################
 
-_run-all-default:
-  desc: "Run through entire processing pipeline with default settings"
+_run-elan-default:
+  desc: "Run through processing pipeline for Elan transcriptions"
   cmds:
     # Default extract stage, assuming data are cleaned and filtered.
     - task clean-output-folder tmp-makedir make-kaldi-subfolders
@@ -10,11 +10,19 @@ _run-all-default:
     - task clean-json > {{ .OUTPUT_PATH }}/tmp/{{ .CLEANED_FILTERED_DATA }}
     - task _build-default
 
-_run-all-dirty:
-  desc: "Strip English from dirty data then run processing pipeline with default settings"
+_run-elan-split:
+  desc: "Segment audio and text by Elan annotation start/end times then run through processing pipeline with default settings"
   cmds:
     - task clean-output-folder tmp-makedir make-kaldi-subfolders
     - task split-eafs
+    - task clean-json > {{ .OUTPUT_PATH }}/tmp/{{ .CLEANED_FILTERED_DATA }}
+    - task _build-default
+
+_run-all-trs:
+  desc: "Run through processing pipeline for TRS transcriptions"
+  cmds:
+    - task clean-output-folder tmp-makedir make-kaldi-subfolders
+    - task trs-to-json > {{ .OUTPUT_PATH }}/tmp/dirty.json
     - task clean-json > {{ .OUTPUT_PATH }}/tmp/{{ .CLEANED_FILTERED_DATA }}
     - task _build-default
 
