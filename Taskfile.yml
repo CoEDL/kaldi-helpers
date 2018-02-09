@@ -65,7 +65,7 @@ _show-lattice:
 _infer:
   desc: "Run Kaldi inference on test data"
   cmds:
-    - cd {{ .OUTPUT_PATH }}/kaldi; ../../gmm-decode.sh
+    - cd {{ .OUTPUT_PATH }}/kaldi; ../../../scripts/gmm-decode.sh
 
 ######################################### HELPER TASKS ############################################
 
