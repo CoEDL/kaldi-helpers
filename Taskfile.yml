@@ -1,42 +1,32 @@
 ######################################### DRIVER TASKS ############################################
 
-_run-elan:
+_run-elan-default:
   desc: "Run through processing pipeline for Elan transcriptions"
   cmds:
     # Default extract stage, assuming data are cleaned and filtered.
-    # Extracts data from all tiers in input files, which will flow all the way through the pipeline to the lexicon
     - task clean-output-folder tmp-makedir make-kaldi-subfolders
-    - task elan-to-json
+    - task elan-to-json > {{ .OUTPUT_PATH }}/tmp/dirty.json
     - task clean-json > {{ .OUTPUT_PATH }}/tmp/{{ .CLEANED_FILTERED_DATA }}
-    - task _build
+    - task _build-default
 
 _run-elan-split:
   desc: "Segment audio and text by Elan annotation start/end times then run through processing pipeline with default settings"
   cmds:
-    # Extracts only from 'Phrase' tier, and skips annotations that have a corresponding annotation on a ref tier
     - task clean-output-folder tmp-makedir make-kaldi-subfolders
     - task split-eafs
     - task clean-json > {{ .OUTPUT_PATH }}/tmp/{{ .CLEANED_FILTERED_DATA }}
-    - task _build
+    - task _build-default
 
-_run-trs:
+_run-trs-default:
   desc: "Run through processing pipeline for TRS transcriptions"
   cmds:
     - task clean-output-folder tmp-makedir make-kaldi-subfolders
     - task trs-to-json > {{ .OUTPUT_PATH }}/tmp/dirty.json
     - task clean-json > {{ .OUTPUT_PATH }}/tmp/{{ .CLEANED_FILTERED_DATA }}
-    - task _build
-
-_run-textgrid:
-  desc: "Run through processing pipeline for TRS transcriptions"
-  cmds:
-    - task clean-output-folder tmp-makedir make-kaldi-subfolders
-    - task textgrid-to-json > {{ .OUTPUT_PATH }}/tmp/dirty.json
-    - task clean-json > {{ .OUTPUT_PATH }}/tmp/{{ .CLEANED_FILTERED_DATA }}
-    - task _build
+    - task _build-default
 
 
-_build:
+_build-default:
   desc: "Run through only the build stage with default settings (i.e. not the clean/filter/extract stage)"
   cmds:
     - task generate-kaldi-files
@@ -46,22 +36,17 @@ _build:
 
     - echo "######################## Build task completed without errors"
 
-_train-test:
+_train-test-default:
   desc: "Run Kaldi train and test stages on default settings"
   # dir: input/output/kaldi
   cmds:
     - cd {{ .OUTPUT_PATH }}/kaldi; ./run.sh
 
+_infer-test-default:
+  desc: "Run Kaldi inference on test data"
 
-_show-lattice:
-  desc: "Create pdf of the lattice graph"
-  dir: input/output/kaldi
   cmds:
-      - |
-        for uttid in `cut -f1 -d " "  ../tmp/json_splitted/text`; do
-          ./utils/show_lattice.sh $uttid  ./exp/tri1/decode/lat.1.gz  ./exp/tri1/graph/words.txt
-        done
-
+    - cd {{ .OUTPUT_PATH }}/kaldi; ../../gmm-decode.sh
 
 ######################################### HELPER TASKS ############################################
 
@@ -100,7 +85,7 @@ generate-kaldi-configs:
 copy-generated-files:
   desc: "Copy generated files to appropriate (sub)directories under /output/kaldi"
   cmds:
-    - cp {{ .OUTPUT_PATH }}/tmp/json_splitted/corpus.txt {{ .OUTPUT_PATH }}/kaldi/data/local/
+    - cp {{ .OUTPUT_PATH }}/tmp/json_splitted/training/corpus.txt {{ .OUTPUT_PATH }}/kaldi/data/local/corpus.txt
     - cp {{ .OUTPUT_PATH }}/tmp/lexicon.txt {{ .OUTPUT_PATH }}/kaldi/data/local/dict/
     - cp {{ .OUTPUT_PATH }}/tmp/nonsilence_phones.txt {{ .OUTPUT_PATH }}/kaldi/data/local/dict/
 
@@ -108,9 +93,9 @@ copy-generated-files:
     - cp {{ .OUTPUT_PATH }}/tmp/mfcc.conf {{ .OUTPUT_PATH }}/kaldi/conf/
     - cp {{ .OUTPUT_PATH }}/tmp/decode.config {{ .OUTPUT_PATH }}/kaldi/conf/
 
-    # Note the default settings make the 'train' and 'test' folders identical
-    - cp {{ .OUTPUT_PATH }}/tmp/json_splitted/segments {{ .OUTPUT_PATH }}/tmp/json_splitted/text {{ .OUTPUT_PATH }}/tmp/json_splitted/utt2spk {{ .OUTPUT_PATH }}/tmp/json_splitted/wav.scp {{ .OUTPUT_PATH }}/kaldi/data/test/
-    - cp {{ .OUTPUT_PATH }}/tmp/json_splitted/segments {{ .OUTPUT_PATH }}/tmp/json_splitted/text {{ .OUTPUT_PATH }}/tmp/json_splitted/utt2spk {{ .OUTPUT_PATH }}/tmp/json_splitted/wav.scp {{ .OUTPUT_PATH }}/kaldi/data/train/
+    # Note the default settings make the 'train' and 'test' folders identical (not anymore!)
+    - cp {{ .OUTPUT_PATH }}/tmp/json_splitted/testing/segments {{ .OUTPUT_PATH }}/tmp/json_splitted/testing/text {{ .OUTPUT_PATH }}/tmp/json_splitted/testing/utt2spk {{ .OUTPUT_PATH }}/tmp/json_splitted/testing/wav.scp {{ .OUTPUT_PATH }}/kaldi/data/test/
+    - cp {{ .OUTPUT_PATH }}/tmp/json_splitted/training/segments {{ .OUTPUT_PATH }}/tmp/json_splitted/training/text {{ .OUTPUT_PATH }}/tmp/json_splitted/training/utt2spk {{ .OUTPUT_PATH }}/tmp/json_splitted/training/wav.scp {{ .OUTPUT_PATH }}/kaldi/data/train/
 
 copy-helper-scripts:
   desc: "Copy the necessary scripts from Kaldi"
@@ -118,8 +103,8 @@ copy-helper-scripts:
     - cp {{ .HELPERS_PATH }}/templates/cmd.sh {{ .OUTPUT_PATH }}/kaldi/
     - cp {{ .HELPERS_PATH }}/templates/run.sh {{ .OUTPUT_PATH }}/kaldi/
     - cp {{ .HELPERS_PATH }}/templates/score.sh {{ .OUTPUT_PATH }}/kaldi/local/
-    - cp -L -r {{ .KALDI_ROOT }}/egs/wsj/s5/steps {{ .OUTPUT_PATH }}/kaldi/steps
-    - cp -L -r {{ .KALDI_ROOT }}/egs/wsj/s5/utils {{ .OUTPUT_PATH }}/kaldi/utils
+    - cp -R {{ .KALDI_ROOT }}/egs/wsj/s5/steps {{ .OUTPUT_PATH }}/kaldi/steps
+    - cp -R {{ .KALDI_ROOT }}/egs/wsj/s5/utils {{ .OUTPUT_PATH }}/kaldi/utils
 
 copy-phones-configs:
   desc: "Copy provided silence/optional silence configuration files"
@@ -189,7 +174,7 @@ elan-to-json:
   env:
     PYTHONIOENCODING: "utf-8"
   cmds:
-    - python3.6 {{ .SCRIPTS_PATH }}/elan_to_json.py --input_dir {{ .CORPUS_PATH }} --output_dir {{ .OUTPUT_PATH }} --tier {{ .TARGET_LANGUAGE_TIER }} --output_json {{ .OUTPUT_PATH }}/tmp/dirty.json
+    - python3.6 {{ .SCRIPTS_PATH }}/elan_to_json.py {{ .CORPUS_PATH }}
 
 trs-to-json:
   desc: "Convert a folder of .trs files to a single JSON file"
@@ -197,14 +182,6 @@ trs-to-json:
     PYTHONIOENCODING: "utf-8"
   cmds:
     - python3.6 {{ .SCRIPTS_PATH }}/trs_to_json.py --indir {{ .CORPUS_PATH }}
-
-textgrid-to-json:
-  desc: "Convert a folder of .textgrid files to a single JSON file"
-  env:
-    PYTHONIOENCODING: "utf-8"
-  cmds:
-    # praatio is another that won't install because of the ssl error. use 3.4 for now
-    - python3.4 {{ .SCRIPTS_PATH }}/textgrid_to_json.py --input_dir {{ .CORPUS_PATH }}
 
 json-to-kaldi:
   desc: "Generate files for the Kaldi format"
