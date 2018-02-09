@@ -62,6 +62,10 @@ _show-lattice:
           ./utils/show_lattice.sh $uttid  ./exp/tri1/decode/lat.1.gz  ./exp/tri1/graph/words.txt
         done
 
+_infer:
+  desc: "Run Kaldi inference on test data"
+  cmds:
+    - cd {{ .OUTPUT_PATH }}/kaldi; ../../gmm-decode.sh
 
 ######################################### HELPER TASKS ############################################
 
