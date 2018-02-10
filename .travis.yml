@@ -6,7 +6,7 @@ services:
 language: python
 
 before_install:
-  - docker pull coedl/kaldi-helpers
+  - docker pull coedl/kaldi-helpers:0.2
 
 script:
   - ls
