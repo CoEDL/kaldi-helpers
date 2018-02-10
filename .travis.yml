@@ -6,8 +6,11 @@ services:
 language: python
 
 before_install:
-  - docker pull coedl/kaldi-helpers:0.2
+  - docker pull coedl/kaldi-helpers
 
 script:
-  - ls
-
+  - |
+     echo "
+          ln -s /test-travis/corpora/abui_toy_corpus /test-travis/input
+     " > test.sh
+  - cat test.sh
