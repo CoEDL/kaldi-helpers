@@ -1,0 +1,12 @@
+sudo: required
+
+services:
+  - docker
+
+language: python
+
+before_install:
+  - docker pull coedl/kaldi-helpers
+
+script:
+  - ls
