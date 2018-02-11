@@ -9,7 +9,7 @@
         <TIME_SLOT TIME_SLOT_ID="ts1" TIME_VALUE="890"/>
         <TIME_SLOT TIME_SLOT_ID="ts2" TIME_VALUE="2960"/>
     </TIME_ORDER>
-    <TIER LINGUISTIC_TYPE_REF="default-lt" PARTICIPANT="SL" TIER_ID="default">
+    <TIER LINGUISTIC_TYPE_REF="default-lt" PARTICIPANT="SL" TIER_ID="Phrase">
         <ANNOTATION>
             <ALIGNABLE_ANNOTATION ANNOTATION_ID="a1" TIME_SLOT_REF1="ts1" TIME_SLOT_REF2="ts2">
                 <ANNOTATION_VALUE>dining ayoku kamar mia mui muila</ANNOTATION_VALUE>

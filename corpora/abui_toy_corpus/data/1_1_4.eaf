@@ -11,7 +11,7 @@
         <TIME_SLOT TIME_SLOT_ID="ts3" TIME_VALUE="3950"/>
         <TIME_SLOT TIME_SLOT_ID="ts4" TIME_VALUE="6040"/>
     </TIME_ORDER>
-    <TIER LINGUISTIC_TYPE_REF="default-lt" PARTICIPANT="SL" TIER_ID="default">
+    <TIER LINGUISTIC_TYPE_REF="default-lt" PARTICIPANT="SL" TIER_ID="Phrase">
         <ANNOTATION>
             <ALIGNABLE_ANNOTATION ANNOTATION_ID="a1" TIME_SLOT_REF1="ts1" TIME_SLOT_REF2="ts2">
                 <ANNOTATION_VALUE>hekaai deina del ong hayei ba</ANNOTATION_VALUE>
