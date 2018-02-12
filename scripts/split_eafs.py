@@ -32,7 +32,6 @@ try:
     silence_tier = args.silence_tier
     output_audio_dir = args.output_audio_dir
     output_text_dir = args.output_text_dir
-    # json file arg should have path attached
     output_json = args.output_json
 except Exception:
     parser.print_help()
@@ -56,9 +55,9 @@ def write_text(annotation, fname, ext):
     f.close()
 
 
-def write_json(json_data):
+def write_json(annotations_data):
     with open(output_json, 'w') as outfile:
-        json.dump(json_data, outfile, indent=4, separators=(',', ': '), sort_keys=False)
+        json.dump(annotations_data, outfile, indent=4, separators=(',', ': '), sort_keys=False)
 
 
 def read_eaf(ie):
@@ -113,8 +112,9 @@ def read_eaf(ie):
 
         if skip is True:
             # print('skipping annotation: ' + annotation, start, end)
-            print("skipping")
+            print("skipping" + str(i))
         else:
+            print("processing" + str(i))
             # print('processing annotation: ' + annotation, start, end)
             # build the output audio/text filename
             fname = basename + "_" + str(i)
@@ -126,7 +126,6 @@ def read_eaf(ie):
             }
             if 'PARTICIPANT' in params:
                 obj["speakerId"] = speaker_id
-                # obj.speakerId = speaker_id
             json_data.append(obj)
             split_audio_by_start_end(input_audio, start, end, fname, ".wav")
             write_text(annotation, fname, ".txt")
